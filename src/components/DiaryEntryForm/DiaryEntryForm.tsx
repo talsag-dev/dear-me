@@ -1,9 +1,12 @@
-'use client';
-
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { DiaryEntryFormProps } from './types';
+import { Camera, X } from 'lucide-react';
 import { saveDiaryEntry } from '../../utils';
+
+interface DiaryEntryFormProps {
+  onEntryAdded: () => void;
+  currentMood: string | null;
+}
 
 export function DiaryEntryForm({
   onEntryAdded,
@@ -13,6 +16,8 @@ export function DiaryEntryForm({
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [currentTag, setCurrentTag] = useState('');
+  const [picture, setPicture] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,11 +29,13 @@ export function DiaryEntryForm({
         content,
         mood: currentMood || 'Not specified',
         tags,
+        picture: picture || undefined,
       };
       saveDiaryEntry(newEntry);
       setContent('');
       setTitle('');
       setTags([]);
+      setPicture(null);
       onEntryAdded();
     }
   };
@@ -42,6 +49,24 @@ export function DiaryEntryForm({
 
   const handleRemoveTag = (tagToRemove: string) => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
+  };
+
+  const handlePictureUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPicture(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemovePicture = () => {
+    setPicture(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   return (
@@ -101,6 +126,40 @@ export function DiaryEntryForm({
             </span>
           ))}
         </div>
+      </div>
+      <div className="mb-4">
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handlePictureUpload}
+          className="hidden"
+          ref={fileInputRef}
+        />
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="flex w-full items-center justify-center rounded-md bg-gray-100 px-4 py-2 text-gray-700 transition duration-200 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          <Camera className="mr-2" />
+          {picture ? 'Change Picture' : 'Add Picture'}
+        </button>
+        {picture && (
+          <div className="relative mt-2">
+            <img
+              src={picture}
+              alt="Uploaded"
+              className="h-auto max-w-full rounded-md"
+            />
+            <button
+              type="button"
+              onClick={handleRemovePicture}
+              className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white transition duration-200 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              aria-label="Remove picture"
+            >
+              <X size={16} />
+            </button>
+          </div>
+        )}
       </div>
       <button
         type="submit"

@@ -5,6 +5,7 @@ export interface DiaryEntry {
   content: string;
   mood: string;
   tags: string[];
+  picture?: string; // Base64 encoded image
 }
 
 export interface MoodEntry {
@@ -21,6 +22,12 @@ export const saveDiaryEntry = (entry: DiaryEntry) => {
 export const getDiaryEntries = (): DiaryEntry[] => {
   const entries = localStorage.getItem('diaryEntries');
   return entries ? JSON.parse(entries) : [];
+};
+
+export const removeDiaryEntry = (id: string) => {
+  const entries = getDiaryEntries();
+  const updatedEntries = entries.filter((entry) => entry.id !== id);
+  localStorage.setItem('diaryEntries', JSON.stringify(updatedEntries));
 };
 
 export const saveMoodEntry = (mood: string) => {

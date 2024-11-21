@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -11,7 +9,7 @@ import {
 import { DiaryEntries, DiaryEntryForm, RandomPhrase } from './components';
 import { MoodTracker } from './components/MoodTracker';
 import { SearchBar } from './components/SearchBar/SearchBar';
-import { MoodStats } from './components/MoodStats/MoodStats';
+import { MoodStats } from './components/MoodStats';
 
 export default function DearMeDiary() {
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
@@ -21,6 +19,7 @@ export default function DearMeDiary() {
   const [currentMood, setCurrentMood] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<DiaryEntry[] | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [updateTrigger, setUpdateTrigger] = useState(0);
 
   useEffect(() => {
     setEntries(getDiaryEntries());
@@ -33,6 +32,12 @@ export default function DearMeDiary() {
     setSearchResults(null);
   };
 
+  const handleEntryRemoved = () => {
+    setEntries(getDiaryEntries());
+    setSearchResults(null);
+    setUpdateTrigger((prev) => prev + 1);
+  };
+
   const handleSearch = (query: string) => {
     const results = searchEntries(query);
     setSearchResults(results);
@@ -41,6 +46,11 @@ export default function DearMeDiary() {
   const handleViewChange = (view: 'write' | 'entries' | 'stats') => {
     setCurrentView(view);
     setIsMenuOpen(false);
+  };
+
+  const handleMoodChange = (mood: string) => {
+    setCurrentMood(mood);
+    setUpdateTrigger((prev) => prev + 1);
   };
 
   return (
@@ -149,7 +159,7 @@ export default function DearMeDiary() {
       </nav>
       <main className="container mx-auto max-w-4xl px-4 py-8 sm:px-6">
         <RandomPhrase />
-        <MoodTracker onMoodChange={setCurrentMood} />
+        <MoodTracker onMoodChange={handleMoodChange} />
         {currentView === 'write' && (
           <DiaryEntryForm
             onEntryAdded={handleEntryAdded}
@@ -159,10 +169,13 @@ export default function DearMeDiary() {
         {currentView === 'entries' && (
           <>
             <SearchBar onSearch={handleSearch} />
-            <DiaryEntries entries={searchResults || entries} />
+            <DiaryEntries
+              entries={searchResults || entries}
+              onEntryRemoved={handleEntryRemoved}
+            />
           </>
         )}
-        {currentView === 'stats' && <MoodStats />}
+        {currentView === 'stats' && <MoodStats updateTrigger={updateTrigger} />}
       </main>
     </div>
   );

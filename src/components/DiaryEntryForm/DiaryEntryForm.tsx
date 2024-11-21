@@ -2,12 +2,8 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { DiaryEntryFormProps } from './types';
 import { saveDiaryEntry } from '../../utils';
-
-interface DiaryEntryFormProps {
-  onEntryAdded: () => void;
-  currentMood: string | null;
-}
 
 export function DiaryEntryForm({
   onEntryAdded,
@@ -51,7 +47,7 @@ export function DiaryEntryForm({
   return (
     <motion.form
       onSubmit={handleSubmit}
-      className="rounded-lg bg-white p-6 shadow-md"
+      className="rounded-lg bg-white p-4 shadow-md sm:p-6"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -82,7 +78,7 @@ export function DiaryEntryForm({
           <button
             type="button"
             onClick={handleAddTag}
-            className="rounded-r-md bg-indigo-500 px-4 py-2 text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="rounded-r-md bg-indigo-500 px-4 py-2 text-white transition duration-200 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-indigo-700"
           >
             Add
           </button>
@@ -98,6 +94,7 @@ export function DiaryEntryForm({
                 type="button"
                 onClick={() => handleRemoveTag(tag)}
                 className="ml-1 text-indigo-600 hover:text-indigo-800 focus:outline-none"
+                aria-label={`Remove tag ${tag}`}
               >
                 &times;
               </button>
@@ -107,7 +104,7 @@ export function DiaryEntryForm({
       </div>
       <button
         type="submit"
-        className="w-full rounded-md bg-indigo-500 px-4 py-2 text-white transition duration-200 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        className="w-full rounded-md bg-indigo-500 px-4 py-2 text-white transition duration-200 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-indigo-700"
       >
         Save Entry
       </button>

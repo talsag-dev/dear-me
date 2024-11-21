@@ -1,9 +1,10 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getMoodEntries, saveMoodEntry } from '../../utils';
-import { MoodTrackerProps } from './types';
+
+interface MoodTrackerProps {
+  onMoodChange: (mood: string) => void;
+}
 
 const moods = [
   { emoji: '😊', label: 'Happy' },
@@ -38,13 +39,11 @@ export function MoodTracker({ onMoodChange }: MoodTrackerProps) {
         {moods.map((mood) => (
           <motion.button
             key={mood.label}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
             onClick={() => handleMoodSelect(mood.label)}
-            className={`rounded-full p-2 text-3xl ${
+            className={`rounded-full p-2 text-3xl transition-all duration-200 ${
               selectedMood === mood.label
                 ? 'bg-indigo-100 ring-2 ring-indigo-500'
-                : 'hover:bg-gray-100'
+                : 'hover:bg-gray-100 active:bg-gray-200'
             }`}
           >
             {mood.emoji}

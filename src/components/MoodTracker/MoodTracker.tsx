@@ -1,6 +1,8 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { getMoodEntries, saveMoodEntry } from '../../utils';
+import { saveMoodEntry, getMoodEntries } from '../../utils';
 
 interface MoodTrackerProps {
   onMoodChange: (mood: string) => void;
@@ -31,10 +33,8 @@ export function MoodTracker({ onMoodChange }: MoodTrackerProps) {
   };
 
   return (
-    <div className="mb-8 rounded-lg bg-white p-6 shadow-md">
-      <h2 className="mb-4 text-xl font-semibold text-gray-700">
-        How are you feeling today?
-      </h2>
+    <div className="bg-card text-card-foreground mb-8 rounded-lg p-6 shadow-md">
+      <h2 className="mb-4 text-xl font-semibold">How are you feeling today?</h2>
       <div className="flex justify-center space-x-4">
         {moods.map((mood) => (
           <motion.button
@@ -42,8 +42,8 @@ export function MoodTracker({ onMoodChange }: MoodTrackerProps) {
             onClick={() => handleMoodSelect(mood.label)}
             className={`rounded-full p-2 text-3xl transition-all duration-200 ${
               selectedMood === mood.label
-                ? 'bg-indigo-100 ring-2 ring-indigo-500'
-                : 'hover:bg-gray-100 active:bg-gray-200'
+                ? 'bg-primary text-primary-foreground ring-primary ring-2'
+                : 'hover:bg-secondary active:bg-secondary'
             }`}
           >
             {mood.emoji}
@@ -51,7 +51,7 @@ export function MoodTracker({ onMoodChange }: MoodTrackerProps) {
         ))}
       </div>
       {selectedMood && (
-        <p className="mt-4 text-center text-gray-600">
+        <p className="text-muted-foreground mt-4 text-center">
           You're feeling <span className="font-semibold">{selectedMood}</span>{' '}
           today.
         </p>

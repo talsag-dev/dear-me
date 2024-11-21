@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -6,6 +8,8 @@ import {
   getMoodEntries,
   searchEntries,
 } from './utils';
+import { ThemeProvider } from './context/ThemeContext';
+import { ThemeSwitcher } from './components/ThemeSwitcher/ThemeSwitcher';
 import { DiaryEntries, DiaryEntryForm, RandomPhrase } from './components';
 import { MoodTracker } from './components/MoodTracker';
 import { SearchBar } from './components/SearchBar/SearchBar';
@@ -54,129 +58,105 @@ export default function DearMeDiary() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
-      <nav className="bg-white shadow-md">
-        <div className="container mx-auto px-4 py-3 sm:px-6">
-          <div className="flex items-center justify-between">
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-2xl font-semibold text-gray-800"
-            >
-              Dear Me Diary
-            </motion.h1>
-            <div className="hidden space-x-4 sm:flex">
-              <button
-                onClick={() => handleViewChange('write')}
-                className={`rounded-md px-3 py-2 text-sm font-medium transition duration-200 ${
-                  currentView === 'write'
-                    ? 'bg-indigo-500 text-white'
-                    : 'text-gray-600 hover:bg-indigo-100 active:bg-indigo-200'
-                }`}
+    <ThemeProvider>
+      <div className="bg-background text-foreground min-h-screen">
+        <nav className="bg-card shadow-md">
+          <div className="container mx-auto px-4 py-3 sm:px-6">
+            <div className="flex items-center justify-between">
+              <motion.h1
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-card-foreground text-2xl font-semibold"
               >
-                Write
-              </button>
-              <button
-                onClick={() => handleViewChange('entries')}
-                className={`rounded-md px-3 py-2 text-sm font-medium transition duration-200 ${
-                  currentView === 'entries'
-                    ? 'bg-indigo-500 text-white'
-                    : 'text-gray-600 hover:bg-indigo-100 active:bg-indigo-200'
-                }`}
-              >
-                Entries
-              </button>
-              <button
-                onClick={() => handleViewChange('stats')}
-                className={`rounded-md px-3 py-2 text-sm font-medium transition duration-200 ${
-                  currentView === 'stats'
-                    ? 'bg-indigo-500 text-white'
-                    : 'text-gray-600 hover:bg-indigo-100 active:bg-indigo-200'
-                }`}
-              >
-                Stats
-              </button>
-            </div>
-            <div className="sm:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-600 hover:text-gray-900 focus:text-gray-900 focus:outline-none"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-          {isMenuOpen && (
-            <div className="mt-4 sm:hidden">
-              <div className="flex flex-col space-y-2">
+                Dear Me Diary
+              </motion.h1>
+              <div className="hidden items-center space-x-4 sm:flex">
+                {['write', 'entries', 'stats'].map((view) => (
+                  <button
+                    key={view}
+                    onClick={() =>
+                      handleViewChange(view as 'write' | 'entries' | 'stats')
+                    }
+                    className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                      currentView === view
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                    }`}
+                  >
+                    {view.charAt(0).toUpperCase() + view.slice(1)}
+                  </button>
+                ))}
+                <ThemeSwitcher />
+              </div>
+              <div className="flex items-center space-x-2 sm:hidden">
+                <ThemeSwitcher />
                 <button
-                  onClick={() => handleViewChange('write')}
-                  className={`rounded-md px-3 py-2 text-sm font-medium transition duration-200 ${
-                    currentView === 'write'
-                      ? 'bg-indigo-500 text-white'
-                      : 'text-gray-600 hover:bg-indigo-100 active:bg-indigo-200'
-                  }`}
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="text-card-foreground hover:text-muted-foreground focus:text-muted-foreground focus:outline-none"
                 >
-                  Write
-                </button>
-                <button
-                  onClick={() => handleViewChange('entries')}
-                  className={`rounded-md px-3 py-2 text-sm font-medium transition duration-200 ${
-                    currentView === 'entries'
-                      ? 'bg-indigo-500 text-white'
-                      : 'text-gray-600 hover:bg-indigo-100 active:bg-indigo-200'
-                  }`}
-                >
-                  Entries
-                </button>
-                <button
-                  onClick={() => handleViewChange('stats')}
-                  className={`rounded-md px-3 py-2 text-sm font-medium transition duration-200 ${
-                    currentView === 'stats'
-                      ? 'bg-indigo-500 text-white'
-                      : 'text-gray-600 hover:bg-indigo-100 active:bg-indigo-200'
-                  }`}
-                >
-                  Stats
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>
-          )}
-        </div>
-      </nav>
-      <main className="container mx-auto max-w-4xl px-4 py-8 sm:px-6">
-        <RandomPhrase />
-        <MoodTracker onMoodChange={handleMoodChange} />
-        {currentView === 'write' && (
-          <DiaryEntryForm
-            onEntryAdded={handleEntryAdded}
-            currentMood={currentMood}
-          />
-        )}
-        {currentView === 'entries' && (
-          <>
-            <SearchBar onSearch={handleSearch} />
-            <DiaryEntries
-              entries={searchResults || entries}
-              onEntryRemoved={handleEntryRemoved}
+            {isMenuOpen && (
+              <div className="mt-4 sm:hidden">
+                <div className="flex flex-col space-y-2">
+                  {['write', 'entries', 'stats'].map((view) => (
+                    <button
+                      key={view}
+                      onClick={() =>
+                        handleViewChange(view as 'write' | 'entries' | 'stats')
+                      }
+                      className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                        currentView === view
+                          ? 'bg-primary text-primary-foreground'
+                          : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                      }`}
+                    >
+                      {view.charAt(0).toUpperCase() + view.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </nav>
+        <main className="container mx-auto max-w-4xl px-4 py-8 sm:px-6">
+          <RandomPhrase />
+          <MoodTracker onMoodChange={handleMoodChange} />
+          {currentView === 'write' && (
+            <DiaryEntryForm
+              onEntryAdded={handleEntryAdded}
+              currentMood={currentMood}
             />
-          </>
-        )}
-        {currentView === 'stats' && <MoodStats updateTrigger={updateTrigger} />}
-      </main>
-    </div>
+          )}
+          {currentView === 'entries' && (
+            <>
+              <SearchBar onSearch={handleSearch} />
+              <DiaryEntries
+                entries={searchResults || entries}
+                onEntryRemoved={handleEntryRemoved}
+              />
+            </>
+          )}
+          {currentView === 'stats' && (
+            <MoodStats updateTrigger={updateTrigger} />
+          )}
+        </main>
+      </div>
+    </ThemeProvider>
   );
 }

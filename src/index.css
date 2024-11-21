@@ -1,3 +1,120 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 7%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+
+  .joyful {
+    --background: 20 95% 90%; /* Soft lemon yellow */
+    --foreground: 240 20% 10%; /* Deep navy blue */
+    --card: 50 90% 85%; /* Light pastel yellow */
+    --card-foreground: 240 20% 10%; /* Deep navy for readability */
+    --popover: 50 95% 95%; /* Pale yellow for popovers */
+    --popover-foreground: 240 20% 10%; /* Navy blue for strong contrast */
+    --primary: 340 80% 50%; /* Vivid pink-red */
+    --primary-foreground: 50 95% 95%; /* Pale yellow for primary buttons */
+    --secondary: 220 90% 60%; /* Bright sky blue */
+    --secondary-foreground: 240 20% 10%; /* Navy for clarity */
+    --muted: 50 30% 80%; /* Pastel lime */
+    --muted-foreground: 240 20% 30%; /* Soft navy for muted text */
+    --accent: 160 70% 40%; /* Rich turquoise */
+    --accent-foreground: 50 95% 95%; /* Light yellow for accents */
+    --destructive: 10 80% 55%; /* Bright orange-red */
+    --destructive-foreground: 50 95% 95%; /* Pale yellow for destructive elements */
+    --border: 50 40% 70%; /* Muted pastel green */
+    --input: 50 50% 85%; /* Light lime input background */
+    --ring: 340 80% 50%; /* Vivid pink-red focus ring */
+  }
+
+  .forest {
+    --background: 120 30% 95%;
+    --foreground: 120 30% 10%;
+    --card: 120 30% 90%;
+    --card-foreground: 120 30% 10%;
+    --popover: 120 30% 95%;
+    --popover-foreground: 120 30% 10%;
+    --primary: 120 60% 40%;
+    --primary-foreground: 120 30% 95%;
+    --secondary: 120 20% 85%;
+    --secondary-foreground: 120 30% 10%;
+    --muted: 120 20% 85%;
+    --muted-foreground: 120 20% 40%;
+    --accent: 120 20% 85%;
+    --accent-foreground: 120 30% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 120 30% 95%;
+    --border: 120 30% 80%;
+    --input: 120 30% 80%;
+    --ring: 120 60% 40%;
+  }
+
+  .ocean {
+    --background: 200 30% 95%;
+    --foreground: 200 30% 10%;
+    --card: 200 30% 90%;
+    --card-foreground: 200 30% 10%;
+    --popover: 200 30% 95%;
+    --popover-foreground: 200 30% 10%;
+    --primary: 200 60% 50%;
+    --primary-foreground: 200 30% 95%;
+    --secondary: 200 20% 85%;
+    --secondary-foreground: 200 30% 10%;
+    --muted: 200 20% 85%;
+    --muted-foreground: 200 20% 40%;
+    --accent: 200 20% 85%;
+    --accent-foreground: 200 30% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 200 30% 95%;
+    --border: 200 30% 80%;
+    --input: 200 30% 80%;
+    --ring: 200 60% 50%;
+  }
+}
+
+body {
+  @apply bg-background text-foreground font-sans;
+}

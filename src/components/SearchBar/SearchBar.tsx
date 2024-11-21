@@ -1,6 +1,11 @@
+'use client';
+
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { SearchBarProps } from './types';
+
+interface SearchBarProps {
+  onSearch: (query: string) => void;
+}
 
 export function SearchBar({ onSearch }: SearchBarProps) {
   const [query, setQuery] = useState('');
@@ -24,11 +29,11 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search entries..."
-          className="flex-grow rounded-l-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="border-input focus:ring-ring bg-background text-foreground flex-grow rounded-l-md border p-2 focus:outline-none focus:ring-2"
         />
         <button
           type="submit"
-          className="rounded-r-md bg-indigo-500 px-4 py-2 text-white transition duration-200 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-indigo-700"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-ring rounded-r-md px-4 py-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
         >
           Search
         </button>

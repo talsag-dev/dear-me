@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Camera, X } from 'lucide-react';
@@ -72,7 +74,7 @@ export function DiaryEntryForm({
   return (
     <motion.form
       onSubmit={handleSubmit}
-      className="rounded-lg bg-white p-4 shadow-md sm:p-6"
+      className="bg-card text-card-foreground rounded-lg p-4 shadow-md sm:p-6"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -82,13 +84,13 @@ export function DiaryEntryForm({
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Entry Title (optional)"
-        className="mb-4 w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="border-input focus:ring-ring bg-background text-foreground mb-4 w-full rounded-md border p-2 focus:outline-none focus:ring-2"
       />
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Dear me..."
-        className="mb-4 w-full resize-none rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="border-input focus:ring-ring bg-background text-foreground mb-4 w-full resize-none rounded-md border p-2 focus:outline-none focus:ring-2"
         rows={8}
       />
       <div className="mb-4">
@@ -98,12 +100,12 @@ export function DiaryEntryForm({
             value={currentTag}
             onChange={(e) => setCurrentTag(e.target.value)}
             placeholder="Add a tag"
-            className="flex-grow rounded-l-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="border-input focus:ring-ring bg-background text-foreground flex-grow rounded-l-md border p-2 focus:outline-none focus:ring-2"
           />
           <button
             type="button"
             onClick={handleAddTag}
-            className="rounded-r-md bg-indigo-500 px-4 py-2 text-white transition duration-200 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-indigo-700"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/70 focus:ring-ring rounded-r-md px-4 py-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
           >
             Add
           </button>
@@ -112,13 +114,13 @@ export function DiaryEntryForm({
           {tags.map((tag) => (
             <span
               key={tag}
-              className="flex items-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-sm font-medium text-indigo-800"
+              className="bg-secondary text-secondary-foreground flex items-center rounded-full px-2.5 py-0.5"
             >
               {tag}
               <button
                 type="button"
                 onClick={() => handleRemoveTag(tag)}
-                className="ml-1 text-indigo-600 hover:text-indigo-800 focus:outline-none"
+                className="text-secondary-foreground hover:text-primary ml-1 focus:outline-none"
                 aria-label={`Remove tag ${tag}`}
               >
                 &times;
@@ -138,7 +140,7 @@ export function DiaryEntryForm({
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="flex w-full items-center justify-center rounded-md bg-gray-100 px-4 py-2 text-gray-700 transition duration-200 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="bg-secondary text-secondary-foreground hover:bg-secondary/80 focus:ring-ring flex w-full items-center justify-center rounded-md px-4 py-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
         >
           <Camera className="mr-2" />
           {picture ? 'Change Picture' : 'Add Picture'}
@@ -153,7 +155,7 @@ export function DiaryEntryForm({
             <button
               type="button"
               onClick={handleRemovePicture}
-              className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white transition duration-200 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90 focus:ring-ring absolute right-2 top-2 rounded-full p-1 transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
               aria-label="Remove picture"
             >
               <X size={16} />
@@ -163,7 +165,7 @@ export function DiaryEntryForm({
       </div>
       <button
         type="submit"
-        className="w-full rounded-md bg-indigo-500 px-4 py-2 text-white transition duration-200 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-indigo-700"
+        className="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-ring w-full rounded-md px-4 py-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
       >
         Save Entry
       </button>

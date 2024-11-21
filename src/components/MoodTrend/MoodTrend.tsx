@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import {
   LineChart,
@@ -40,10 +42,8 @@ export function MoodTrend({ updateTrigger }: MoodTrendProps) {
   }, [updateTrigger]);
 
   return (
-    <div className="mb-8 rounded-lg bg-white p-4 shadow-md sm:p-6">
-      <h2 className="mb-4 text-xl font-semibold text-gray-700">
-        Mood Trend (Last 14 Days)
-      </h2>
+    <div className="bg-card text-card-foreground mb-8 rounded-lg p-4 shadow-md sm:p-6">
+      <h2 className="mb-4 text-xl font-semibold">Mood Trend (Last 14 Days)</h2>
       <div className="h-64 sm:h-80">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
@@ -61,7 +61,7 @@ export function MoodTrend({ updateTrigger }: MoodTrendProps) {
           </LineChart>
         </ResponsiveContainer>
       </div>
-      <div className="mt-4 text-sm text-gray-600">
+      <div className="text-muted-foreground mt-4 text-sm">
         <p>5 = Happy, 4 = Not used, 3 = Neutral, 2 = Angry/Tired, 1 = Sad</p>
       </div>
     </div>

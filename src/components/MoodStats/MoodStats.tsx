@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { getMoodEntries, MoodEntry } from '../../utils';
 import { MoodTrend } from '../MoodTrend';
@@ -35,25 +37,23 @@ export function MoodStats({ updateTrigger }: MoodStatsProps) {
   return (
     <div className="space-y-8">
       <MoodTrend updateTrigger={updateTrigger} />
-      <div className="rounded-lg bg-white p-4 shadow-md sm:p-6">
-        <h2 className="mb-4 text-xl font-semibold text-gray-700">
-          Your Mood Statistics
-        </h2>
+      <div className="bg-card text-card-foreground rounded-lg p-4 shadow-md sm:p-6">
+        <h2 className="mb-4 text-xl font-semibold">Your Mood Statistics</h2>
         {totalEntries > 0 ? (
           <div className="space-y-2">
             {Object.entries(moodStats).map(([mood]) => (
               <div key={mood} className="flex items-center justify-between">
-                <span className="text-gray-600">
+                <span className="text-foreground">
                   {moodEmoji[mood]} {mood}
                 </span>
                 <div className="flex items-center">
-                  <div className="mr-2 h-2.5 w-48 rounded-full bg-gray-200">
+                  <div className="bg-secondary mr-2 h-2.5 w-48 rounded-full">
                     <div
-                      className="h-2.5 rounded-full bg-indigo-500"
+                      className="bg-primary h-2.5 rounded-full"
                       style={{ width: `${getMoodPercentage(mood)}%` }}
                     ></div>
                   </div>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-muted-foreground text-sm">
                     {getMoodPercentage(mood)}%
                   </span>
                 </div>
